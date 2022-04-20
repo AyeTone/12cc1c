@@ -66,14 +66,13 @@ const Home = ({ user, logout }) => {
     try {
       const data = saveMessage(body);
 
-      Promise.resolve(data).then((result) => {
-        if (!body.conversationId) {
-          addNewConvo(body.recipientId, result.message);
-        } else {
-          addMessageToConversation(result);
-        }
-        sendMessage(data, body);
-      });
+      if (!body.conversationId) {
+        addNewConvo(body.recipientId, data.message);
+      } else {
+        addMessageToConversation(data);
+      }
+
+      sendMessage(data, body);
     } catch (error) {
       console.error(error);
     }
@@ -88,11 +87,10 @@ const Home = ({ user, logout }) => {
           convo.id = message.conversationId;
         }
       });
-      setConversations([...conversations]);
+      setConversations(conversations);
     },
-    [setConversations, conversations]
+    [setConversations, conversations],
   );
-
   const addMessageToConversation = useCallback(
     (data) => {
       // if sender isn't null, that means the message needs to be put in a brand new convo
@@ -113,10 +111,9 @@ const Home = ({ user, logout }) => {
           convo.latestMessageText = message.text;
         }
       });
-
-      setConversations([...conversations]);
+      setConversations(conversations);
     },
-    [setConversations, conversations]
+    [setConversations, conversations],
   );
 
   const setActiveChat = (username) => {
@@ -133,7 +130,7 @@ const Home = ({ user, logout }) => {
         } else {
           return convo;
         }
-      })
+      }),
     );
   }, []);
 
@@ -147,7 +144,7 @@ const Home = ({ user, logout }) => {
         } else {
           return convo;
         }
-      })
+      }),
     );
   }, []);
 
