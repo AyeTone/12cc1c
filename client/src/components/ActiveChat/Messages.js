@@ -9,7 +9,7 @@ const Messages = (props) => {
   return (
     <Box>
       {messages
-        .sort((a, b) => (a.id > b.id ? 1 : -1))
+        .sort((c, b) => (c.id > b.id ? 1 : -1))
         .map((message) => {
           const time = moment(message.createdAt).format("h:mm");
 
