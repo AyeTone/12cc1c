@@ -33,6 +33,10 @@ const ActiveChat = ({
       )
     : {};
 
+  const sortedMessages = conversation?.messages.sort((a, b) =>
+    a.createdAt > b.createdAt ? 1 : -1
+  );
+
   const isConversation = (obj) => {
     return obj !== {} && obj !== undefined;
   };
@@ -49,7 +53,7 @@ const ActiveChat = ({
             {user && (
               <>
                 <Messages
-                  messages={conversation.messages}
+                  messages={sortedMessages}
                   otherUser={conversation.otherUser}
                   userId={user.id}
                 />
