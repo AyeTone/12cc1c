@@ -1,21 +1,21 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
-import { Input, Header, Messages } from './index';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Box } from "@material-ui/core";
+import { Input, Header, Messages } from "./index";
 
 const useStyles = makeStyles(() => ({
   root: {
-    display: 'flex',
+    display: "flex",
     flexGrow: 8,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   chatContainer: {
     marginLeft: 41,
     marginRight: 41,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     flexGrow: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 }));
 
@@ -33,6 +33,10 @@ const ActiveChat = ({
       )
     : {};
 
+  const sortedMessages = conversation?.messages.sort((a, b) =>
+    a.createdAt > b.createdAt ? 1 : -1
+  );
+
   const isConversation = (obj) => {
     return obj !== {} && obj !== undefined;
   };
@@ -49,13 +53,13 @@ const ActiveChat = ({
             {user && (
               <>
                 <Messages
-                  messages={conversation.messages}
+                  messages={sortedMessages}
                   otherUser={conversation.otherUser}
                   userId={user.id}
                 />
                 <Input
                   otherUser={conversation.otherUser}
-                  conversationId={conversation.id || null}
+                  conversationId={conversation.id}
                   user={user}
                   postMessage={postMessage}
                 />
