@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import {
-  Grid,
-  Box,
-  Typography,
-  Button,
-  FormControl,
-  TextField,
-  FormHelperText,
-} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { Grid, Typography } from "@material-ui/core";
 import { formStyles } from "./formStyles";
-import Bubble from "./assets/bubble.svg";
+import BgImg from "./components/Forms/BgImg";
+import Header from "./components/Forms/Header";
+import Form from "./components/Forms/Form";
 
 const Signup = ({ user, register }) => {
   const classes = formStyles();
@@ -38,43 +32,45 @@ const Signup = ({ user, register }) => {
     if (user && user.id) history.push("/home");
   }, [user, history]);
 
+  const inputs = [
+    {
+      ariaLabel: "username",
+      label: "Username",
+      name: "username",
+      type: "text",
+    },
+    {
+      ariaLabel: "e-mail address",
+      label: "E-mail address",
+      type: "email",
+      name: "email",
+    },
+    {
+      ariaLabel: "password",
+      label: "Password",
+      name: "password",
+      type: "password",
+      isSignUp: true,
+    },
+    {
+      ariaLabel: "password",
+      label: "Confirm Password",
+      type: "password",
+      name: "confirmPassword",
+      isSignUp: true,
+    },
+  ];
+
   return (
     <Grid className={classes.root} container justifyContent="center">
-      <Grid container item md={5} className={classes.Bgimg}>
-        <Grid
-          className={classes.BgImgCover}
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <img src={Bubble} alt="Chat Bubble" />
-          <Typography className={classes.coverText}>
-            {" "}
-            Converse with anyone <br /> with any language{" "}
-          </Typography>
-        </Grid>
-      </Grid>
+      <BgImg />
       <Grid item md={7} className={classes.container}>
         <Grid container direction="column" className={classes.wrapper}>
-          <Grid
-            wrap="nowrap"
-            className={classes.header}
-            container
-            alignItems="center"
-          >
-            <Typography item className={classes.loginText}>
-              Already have an account?
-            </Typography>
-            <Link
-              item
-              style={{ textDecoration: "none" }}
-              href="/login"
-              to="/login"
-            >
-              <Button className={classes.headerBtn}>Login</Button>
-            </Link>
-          </Grid>
+          <Header
+            text="Already have an account?"
+            btnText="Login"
+            linkTo="/login"
+          />
           <Grid
             container
             justifyContent="center"
@@ -84,77 +80,12 @@ const Signup = ({ user, register }) => {
             <Typography className={classes.title} variant="h5" component="h1">
               Create an account.
             </Typography>
-            <form className={classes.form} onSubmit={handleRegister}>
-              <Grid container direction="column" spacing={5}>
-                <Grid item>
-                  <FormControl className={classes.formControl}>
-                    <TextField
-                      aria-label="username"
-                      label="Username"
-                      name="username"
-                      type="text"
-                      required
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  <FormControl className={classes.formControl}>
-                    <TextField
-                      label="E-mail address"
-                      aria-label="e-mail address"
-                      type="email"
-                      name="email"
-                      required
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  <FormControl
-                    className={classes.formControl}
-                    error={!!formErrorMessage.confirmPassword}
-                  >
-                    <TextField
-                      aria-label="password"
-                      label="Password"
-                      type="password"
-                      inputProps={{ minLength: 6 }}
-                      name="password"
-                      required
-                    />
-                    <FormHelperText>
-                      {formErrorMessage.confirmPassword}
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  <FormControl
-                    className={classes.formControl}
-                    error={!!formErrorMessage.confirmPassword}
-                  >
-                    <TextField
-                      label="Confirm Password"
-                      aria-label="confirm password"
-                      type="password"
-                      inputProps={{ minLength: 6 }}
-                      name="confirmPassword"
-                      required
-                    />
-                    <FormHelperText>
-                      {formErrorMessage.confirmPassword}
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Button
-                  className={classes.formBtn}
-                  type="submit"
-                  variant="contained"
-                  size="large"
-                  item
-                >
-                  Create
-                </Button>
-              </Grid>
-            </form>
+            <Form
+              handleSubmit={handleRegister}
+              formErrorMessage={formErrorMessage}
+              inputs={inputs}
+              btnText="Create"
+            />
           </Grid>
         </Grid>
       </Grid>
