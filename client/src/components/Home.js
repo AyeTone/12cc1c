@@ -82,12 +82,11 @@ const Home = ({ user, logout }) => {
       setConversations((prev) =>
         prev.map((convo) => {
           if (convo.otherUser.id === recipientId) {
-            return {
-              ...convo,
-              messages: [message],
-              id: message.conversationId,
-              latestMessageText: message.text,
-            };
+            const convoCopy = { ...convo };
+            convoCopy.messages = [message];
+            convoCopy.id = message.conversationId;
+            convoCopy.latestMessageText = message.text;
+            return convoCopy;
           } else {
             return convo;
           }
@@ -159,7 +158,6 @@ const Home = ({ user, logout }) => {
     );
   }, []);
 
-  console.log(conversations?.messages);
   // Lifecycle
 
   useEffect(() => {
