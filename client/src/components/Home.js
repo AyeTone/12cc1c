@@ -122,6 +122,8 @@ const Home = ({ user, logout }) => {
           }
         })
       );
+
+      console.log(message);
     },
     [setConversations]
   );
