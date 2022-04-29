@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Grid, Typography } from "@material-ui/core";
-import { formStyles } from "./formStyles";
-import BgImg from "./components/Forms/BgImg";
+import { Grid, Typography, Button } from "@material-ui/core";
+import { formStyles } from "./styles/formStyles";
+import SidebarImg from "./components/Forms/SidebarImg";
 import Header from "./components/Forms/Header";
-import Form from "./components/Forms/Form";
+import InputGroup from "./components/Forms/InputGroup";
 
 const Login = ({ user, login }) => {
   const classes = formStyles();
@@ -24,25 +24,9 @@ const Login = ({ user, login }) => {
     if (user && user.id) history.push("/home");
   }, [user, history]);
 
-  const inputs = [
-    {
-      ariaLabel: "username",
-      label: "Username",
-      name: "username",
-      type: "text",
-    },
-    {
-      ariaLabel: "password",
-      label: "Password",
-      name: "password",
-      type: "password",
-      isLogin: true,
-    },
-  ];
-
   return (
     <Grid className={classes.root} container justifyContent="center">
-      <BgImg />
+      <SidebarImg />
       <Grid item md={7} className={classes.container}>
         <Grid container direction="column" className={classes.wrapper}>
           <Header
@@ -59,7 +43,31 @@ const Login = ({ user, login }) => {
             <Typography className={classes.title} variant="h5" component="h1">
               Welcome Back!
             </Typography>
-            <Form handleSubmit={handleLogin} inputs={inputs} btnText="Login" />
+            <form className={classes.form} onSubmit={handleLogin}>
+              <Grid container direction="column" spacing={5}>
+                <InputGroup
+                  ariaLabel="username"
+                  label="Username"
+                  name="username"
+                  type="text"
+                />
+                <InputGroup
+                  ariaLabel="password"
+                  label="Password"
+                  name="password"
+                  type="password"
+                  isLogin={true}
+                />
+                <Button
+                  className={classes.formBtn}
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                >
+                  Login
+                </Button>
+              </Grid>
+            </form>
           </Grid>
         </Grid>
       </Grid>

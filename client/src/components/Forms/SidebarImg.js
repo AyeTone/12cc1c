@@ -3,7 +3,7 @@ import { Grid, Typography } from "@material-ui/core";
 import { formStyles } from "../../styles/formStyles";
 import Bubble from "../../assets/bubble.svg";
 
-const BgImg = () => {
+const SidebarImg = () => {
   const classes = formStyles();
 
   return (
@@ -25,4 +25,4 @@ const BgImg = () => {
   );
 };
 
-export default BgImg;
+export default SidebarImg;

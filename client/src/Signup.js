@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Grid, Typography } from "@material-ui/core";
-import { formStyles } from "./formStyles";
-import BgImg from "./components/Forms/BgImg";
+import { Button, Grid, Typography } from "@material-ui/core";
+import { formStyles } from "./styles/formStyles";
+import SidebarImg from "./components/Forms/SidebarImg";
 import Header from "./components/Forms/Header";
-import Form from "./components/Forms/Form";
+import InputGroup from "./components/Forms/InputGroup";
 
 const Signup = ({ user, register }) => {
   const classes = formStyles();
@@ -32,38 +32,9 @@ const Signup = ({ user, register }) => {
     if (user && user.id) history.push("/home");
   }, [user, history]);
 
-  const inputs = [
-    {
-      ariaLabel: "username",
-      label: "Username",
-      name: "username",
-      type: "text",
-    },
-    {
-      ariaLabel: "e-mail address",
-      label: "E-mail address",
-      type: "email",
-      name: "email",
-    },
-    {
-      ariaLabel: "password",
-      label: "Password",
-      name: "password",
-      type: "password",
-      isSignUp: true,
-    },
-    {
-      ariaLabel: "password",
-      label: "Confirm Password",
-      type: "password",
-      name: "confirmPassword",
-      isSignUp: true,
-    },
-  ];
-
   return (
     <Grid className={classes.root} container justifyContent="center">
-      <BgImg />
+      <SidebarImg />
       <Grid item md={7} className={classes.container}>
         <Grid container direction="column" className={classes.wrapper}>
           <Header
@@ -80,12 +51,46 @@ const Signup = ({ user, register }) => {
             <Typography className={classes.title} variant="h5" component="h1">
               Create an account.
             </Typography>
-            <Form
-              handleSubmit={handleRegister}
-              formErrorMessage={formErrorMessage}
-              inputs={inputs}
-              btnText="Create"
-            />
+            <form className={classes.form} onSubmit={handleRegister}>
+              <Grid container direction="column" spacing={3}>
+                <InputGroup
+                  ariaLabel="username"
+                  label="Username"
+                  name="username"
+                  type="text"
+                />
+                <InputGroup
+                  ariaLabel="e-mail address"
+                  label="E-mail address"
+                  name="email"
+                  type="email"
+                />
+                <InputGroup
+                  ariaLabel="password"
+                  label="Password"
+                  name="password"
+                  type="password"
+                  isSignUp={true}
+                  formErrorMessage={formErrorMessage}
+                />
+                <InputGroup
+                  ariaLabel="password"
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  isSignUp={true}
+                  formErrorMessage={formErrorMessage}
+                />
+                <Button
+                  className={classes.formBtn}
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                >
+                  Create
+                </Button>
+              </Grid>
+            </form>
           </Grid>
         </Grid>
       </Grid>

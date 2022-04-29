@@ -14,7 +14,7 @@ const Header = ({ text, btnText, linkTo }) => {
       alignItems="center"
     >
       <Typography>{text}</Typography>
-      <Link style={{ textDecoration: "none" }} href={linkTo} to={linkTo}>
+      <Link className={classes.headerLink} href={linkTo} to={linkTo}>
         <Button className={classes.headerBtn}>{btnText}</Button>
       </Link>
     </Grid>
