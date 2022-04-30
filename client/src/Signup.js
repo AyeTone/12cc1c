@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import {
-  Grid,
-  Box,
-  Typography,
-  Button,
-  FormControl,
-  TextField,
-  FormHelperText,
-} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { Button, Grid, Typography } from "@material-ui/core";
+import { formStyles } from "./styles/formStyles";
+import SidebarImg from "./components/Forms/SidebarImg";
+import Header from "./components/Forms/Header";
+import InputGroup from "./components/Forms/InputGroup";
 
 const Signup = ({ user, register }) => {
+  const classes = formStyles();
   const history = useHistory();
 
   const [formErrorMessage, setFormErrorMessage] = useState({});
@@ -36,74 +33,67 @@ const Signup = ({ user, register }) => {
   }, [user, history]);
 
   return (
-    <Grid container justifyContent="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to log in?</Typography>
-          <Link href="/login" to="/login">
-            <Button>Login</Button>
-          </Link>
-        </Grid>
-        <form onSubmit={handleRegister}>
-          <Grid>
-            <Grid>
-              <FormControl>
-                <TextField
-                  aria-label="username"
+    <Grid className={classes.root} container justifyContent="center">
+      <SidebarImg />
+      <Grid item md={7} className={classes.container}>
+        <Grid container direction="column" className={classes.wrapper}>
+          <Header
+            text="Already have an account?"
+            btnText="Login"
+            linkTo="/login"
+          />
+          <Grid
+            container
+            justifyContent="center"
+            direction="column"
+            className={classes.content}
+          >
+            <Typography className={classes.title} variant="h5" component="h1">
+              Create an account.
+            </Typography>
+            <form className={classes.form} onSubmit={handleRegister}>
+              <Grid container direction="column" spacing={3}>
+                <InputGroup
+                  ariaLabel="username"
                   label="Username"
                   name="username"
                   type="text"
-                  required
                 />
-              </FormControl>
-            </Grid>
-            <Grid>
-              <FormControl>
-                <TextField
+                <InputGroup
+                  ariaLabel="e-mail address"
                   label="E-mail address"
-                  aria-label="e-mail address"
-                  type="email"
                   name="email"
-                  required
+                  type="email"
                 />
-              </FormControl>
-            </Grid>
-            <Grid>
-              <FormControl error={!!formErrorMessage.confirmPassword}>
-                <TextField
-                  aria-label="password"
+                <InputGroup
+                  ariaLabel="password"
                   label="Password"
-                  type="password"
-                  inputProps={{ minLength: 6 }}
                   name="password"
-                  required
-                />
-                <FormHelperText>
-                  {formErrorMessage.confirmPassword}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid>
-              <FormControl error={!!formErrorMessage.confirmPassword}>
-                <TextField
-                  label="Confirm Password"
-                  aria-label="confirm password"
                   type="password"
-                  inputProps={{ minLength: 6 }}
-                  name="confirmPassword"
-                  required
+                  isSignUp={true}
+                  formErrorMessage={formErrorMessage}
                 />
-                <FormHelperText>
-                  {formErrorMessage.confirmPassword}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Button type="submit" variant="contained" size="large">
-              Create
-            </Button>
+                <InputGroup
+                  ariaLabel="password"
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  isSignUp={true}
+                  formErrorMessage={formErrorMessage}
+                />
+                <Button
+                  className={classes.formBtn}
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                >
+                  Create
+                </Button>
+              </Grid>
+            </form>
           </Grid>
-        </form>
-      </Box>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
