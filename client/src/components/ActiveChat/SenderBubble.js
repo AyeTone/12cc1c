@@ -42,6 +42,9 @@ const SenderBubble = ({ time, text, images }) => {
   return (
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
+      <Box className={classes.bubble}>
+        <Typography className={classes.text}>{text}</Typography>
+      </Box>
       <Box className={classes.imgContainer}>
         {images &&
           images.map((image, id) => {
@@ -54,9 +57,6 @@ const SenderBubble = ({ time, text, images }) => {
               />
             );
           })}
-      </Box>
-      <Box className={classes.bubble}>
-        <Typography className={classes.text}>{text}</Typography>
       </Box>
     </Box>
   );

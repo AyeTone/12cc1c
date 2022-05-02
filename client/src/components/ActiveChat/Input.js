@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormControl, FilledInput, Grid } from "@material-ui/core";
+import { FormControl, FilledInput, Grid, FormLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Image from "../../assets/ic-file.png";
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     right: "24px",
   },
   imgInput: {
-    width: "0",
+    display: "none",
   },
   selectFile: {
     "&:hover": {
@@ -50,11 +50,23 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
     setText(event.target.value);
   };
 
-  const addImages = (event) => {
-    const blob = URL.createObjectURL(event.target.files[0]);
+  const addImages = async (event) => {
+    const file = event.target.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "interview-stack");
+
+    const data = await fetch(
+      "https://api.cloudinary.com/v1_1/dhhkde2kj/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    ).then((r) => r.json());
 
     setImages((prev) => {
-      return [...prev, blob];
+      return [...prev, data.url];
     });
   };
 
@@ -62,6 +74,7 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
     event.preventDefault();
     const form = event.currentTarget;
     const formElements = form.elements;
+
     // add sender user info if posting to a brand new convo, so that the other user will have access to username, profile pic, etc.
     const reqBody = {
       text: formElements.text.value,
@@ -86,30 +99,33 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
           name="text"
           onChange={handleChange}
         />
-        <label className={classes.imgInputLabel}>
-          <input
+      </FormControl>
+      <FormControl>
+        <FormLabel className={classes.imgInputLabel}>
+          <FilledInput
             onChange={addImages}
             className={classes.imgInput}
             type="file"
             accept="image/*"
+            name="file"
           />
           <img className={classes.selectFile} src={Image} alt="Add File" />
-        </label>
-        {images.length > 0 && (
-          <Grid container className={classes.preview}>
-            {images.map((image, id) => {
-              return (
-                <img
-                  key={id}
-                  className={classes.imgPreview}
-                  src={image}
-                  alt="Cannot Display"
-                />
-              );
-            })}
-          </Grid>
-        )}
+        </FormLabel>
       </FormControl>
+      {images.length > 0 && (
+        <Grid container className={classes.preview}>
+          {images.map((image, id) => {
+            return (
+              <img
+                key={id}
+                className={classes.imgPreview}
+                src={image}
+                alt="Cannot Display"
+              />
+            );
+          })}
+        </Grid>
+      )}
     </form>
   );
 };
