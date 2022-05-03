@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FormControl, FilledInput, Grid, FormLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Image from "../../assets/ic-file.png";
+import axios from "axios";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -57,13 +58,12 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
     formData.append("file", file);
     formData.append("upload_preset", "interview-stack");
 
-    const data = await fetch(
+    const instance = await axios.create();
+    const res = await instance.post(
       "https://api.cloudinary.com/v1_1/dhhkde2kj/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    ).then((r) => r.json());
+      formData
+    );
+    const data = await res.data;
 
     setImages((prev) => {
       return [...prev, data.url];
